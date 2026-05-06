@@ -336,7 +336,7 @@ function Footer() {
     <footer className="bg-background border-t border-border px-6 py-16">
       <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-10">
         <div className="md:col-span-2">
-          <img src={logo} alt="TOP3 VA" className="h-10 w-auto mb-4" />
+          <img src={logo} alt="TOP3 VA" className="h-20 w-auto mb-4" />
           <p className="text-muted-foreground max-w-sm text-sm leading-relaxed">
             We turn online visibility into real clients. Worldwide visibility agency built for results.
           </p>
@@ -370,5 +370,127 @@ function Footer() {
         <div className="flex items-center gap-2"><ChevronDown className="w-3 h-3 rotate-180" /> Built for visibility.</div>
       </div>
     </footer>
+  );
+}
+
+function Testimonials() {
+  const items = [
+    {
+      name: "Marco R.",
+      role: "Restaurant Owner, Milan",
+      text: "We went from invisible on Google to fully booked weekends. Calls tripled in the first month.",
+      rating: 5,
+    },
+    {
+      name: "Sarah L.",
+      role: "Dental Clinic, London",
+      text: "Clear strategy, fast execution, real results. Best investment we made for our practice.",
+      rating: 5,
+    },
+    {
+      name: "Diego P.",
+      role: "Auto Detailing, Madrid",
+      text: "No fluff. They rebuilt our presence and bookings doubled within 6 weeks. Highly recommended.",
+      rating: 5,
+    },
+  ];
+  return (
+    <section id="testimonials" className="py-24 md:py-32 px-6 bg-muted/40 border-y border-border">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-16 reveal">
+          <p className="text-primary font-semibold uppercase tracking-widest text-sm mb-4">Client stories</p>
+          <h2 className="font-display text-4xl md:text-6xl uppercase">
+            Real businesses. <span className="text-gradient-red">Real growth.</span>
+          </h2>
+        </div>
+        <div className="grid md:grid-cols-3 gap-6">
+          {items.map((t, i) => (
+            <div
+              key={t.name}
+              className="reveal relative p-8 rounded-2xl bg-background border border-border hover:border-primary/40 hover:shadow-elegant transition-all duration-500 hover:-translate-y-2"
+              style={{ transitionDelay: `${i * 80}ms` }}
+            >
+              <Quote className="absolute top-6 right-6 w-10 h-10 text-primary/15" />
+              <div className="flex gap-1 mb-4">
+                {Array.from({ length: t.rating }).map((_, k) => (
+                  <Star key={k} className="w-4 h-4 fill-primary text-primary" />
+                ))}
+              </div>
+              <p className="text-foreground/90 leading-relaxed mb-6">"{t.text}"</p>
+              <div className="pt-4 border-t border-border">
+                <div className="font-display uppercase text-lg">{t.name}</div>
+                <div className="text-muted-foreground text-sm">{t.role}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const auditSchema = z.object({
+  name: z.string().trim().min(2, "Please enter your name").max(100),
+  email: z.string().trim().email("Invalid email address").max(255),
+  website: z.string().trim().max(255).optional().or(z.literal("")),
+  goals: z.string().trim().min(10, "Tell us a bit more (min 10 chars)").max(1000),
+});
+
+function AuditForm() {
+  const [loading, setLoading] = useState(false);
+  const [form, setForm] = useState({ name: "", email: "", website: "", goals: "" });
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const result = auditSchema.safeParse(form);
+    if (!result.success) {
+      toast.error(result.error.issues[0]?.message ?? "Please check the form");
+      return;
+    }
+    setLoading(true);
+    try {
+      const subject = encodeURIComponent(`Visibility audit request — ${result.data.name}`);
+      const body = encodeURIComponent(
+        `Name: ${result.data.name}\nEmail: ${result.data.email}\nWebsite: ${result.data.website || "—"}\n\nGoals:\n${result.data.goals}`
+      );
+      window.location.href = `mailto:contact@top3va.com?subject=${subject}&body=${body}`;
+      toast.success("Opening your email — we'll reply within 48h.");
+      setForm({ name: "", email: "", website: "", goals: "" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <form
+      onSubmit={onSubmit}
+      className="reveal relative p-6 md:p-8 rounded-2xl bg-background text-foreground border border-border shadow-elegant"
+    >
+      <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-primary/30 via-transparent to-transparent opacity-50 -z-10 blur-md" />
+      <h3 className="font-display text-2xl md:text-3xl uppercase mb-1">Request your audit</h3>
+      <p className="text-muted-foreground text-sm mb-6">Free • 48h turnaround • No commitment</p>
+      <div className="space-y-4">
+        <div className="space-y-1.5">
+          <Label htmlFor="name">Your name</Label>
+          <Input id="name" placeholder="Jane Doe" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} maxLength={100} required />
+        </div>
+        <div className="space-y-1.5">
+          <Label htmlFor="email">Email</Label>
+          <Input id="email" type="email" placeholder="you@company.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} maxLength={255} required />
+        </div>
+        <div className="space-y-1.5">
+          <Label htmlFor="website">Website (optional)</Label>
+          <Input id="website" placeholder="https://yoursite.com" value={form.website} onChange={(e) => setForm({ ...form, website: e.target.value })} maxLength={255} />
+        </div>
+        <div className="space-y-1.5">
+          <Label htmlFor="goals">Your goals</Label>
+          <Textarea id="goals" placeholder="More calls? More bookings? Tell us what success looks like." rows={4} value={form.goals} onChange={(e) => setForm({ ...form, goals: e.target.value })} maxLength={1000} required />
+        </div>
+        <Button type="submit" variant="hero" size="lg" className="w-full" disabled={loading}>
+          {loading ? "Sending..." : (<>Get My Free Audit <ArrowRight /></>)}
+        </Button>
+        <p className="text-xs text-muted-foreground text-center">We respect your privacy. No spam, ever.</p>
+      </div>
+    </form>
   );
 }
