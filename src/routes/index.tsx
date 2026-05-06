@@ -361,4 +361,3 @@ function Footer() {
     </footer>
   );
 }
-}
