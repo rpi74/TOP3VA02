@@ -10,6 +10,10 @@ import { Label } from "@/components/ui/label";
 import { Navbar } from "@/components/site/Navbar";
 import { Counter } from "@/components/site/Counter";
 import logo from "@/assets/logo.png";
+import teamOffice from "@/assets/team-office.png";
+import teamMember from "@/assets/team-member.png";
+import teamDashboard from "@/assets/team-dashboard.png";
+import teamWhiteboard from "@/assets/team-whiteboard.png";
 import {
   MapPin, Search, Globe, BarChart3, Phone, ArrowRight, Check,
   Zap, Target, MessageSquare, ChevronDown, Mail, Instagram,
@@ -37,6 +41,7 @@ function Index() {
       <Hero />
       <Problem />
       <Trust />
+      <BehindTheScenes />
       <Services />
       <Process />
       <BeforeAfter />
@@ -155,6 +160,43 @@ function Trust() {
               <div className="mt-3 text-xs md:text-sm uppercase tracking-wider text-muted-foreground">{st.l}</div>
             </div>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function BehindTheScenes() {
+  return (
+    <section className="py-16 md:py-20 px-6 bg-muted/30 border-y border-border">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-12 reveal">
+          <p className="text-primary font-semibold uppercase tracking-widest text-sm mb-4">Behind the scenes</p>
+          <h2 className="font-display text-4xl md:text-6xl uppercase leading-tight">
+            A real team. <span className="text-gradient-red">Real work.</span>
+          </h2>
+          <p className="mt-6 text-muted-foreground max-w-2xl mx-auto text-lg">
+            No outsourced freelancers. No black boxes. A dedicated team obsessed with your visibility and your results.
+          </p>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 reveal">
+          <div className="relative md:col-span-2 md:row-span-2 aspect-square md:aspect-auto rounded-2xl overflow-hidden border border-border group">
+            <img src={teamOffice} alt="TOP3-VA office and team at work" loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+            <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-transparent to-transparent" />
+            <div className="absolute bottom-5 left-5 right-5 text-background">
+              <div className="text-xs uppercase tracking-widest opacity-80">Our HQ</div>
+              <div className="font-display text-xl md:text-2xl uppercase">Where visibility is built</div>
+            </div>
+          </div>
+          <div className="relative aspect-square rounded-2xl overflow-hidden border border-border group">
+            <img src={teamMember} alt="TOP3-VA specialist analyzing client dashboards" loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+          </div>
+          <div className="relative aspect-square rounded-2xl overflow-hidden border border-border group">
+            <img src={teamWhiteboard} alt="Team strategizing visibility plan on whiteboard" loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+          </div>
+          <div className="relative aspect-square col-span-2 md:col-span-2 rounded-2xl overflow-hidden border border-border group">
+            <img src={teamDashboard} alt="Team reviewing client growth metrics" loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+          </div>
         </div>
       </div>
     </section>
