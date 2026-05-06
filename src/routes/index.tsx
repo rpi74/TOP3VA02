@@ -1,6 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useReveal } from "@/hooks/use-reveal";
+import { useState } from "react";
+import { z } from "zod";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 import { Navbar } from "@/components/site/Navbar";
 import { Counter } from "@/components/site/Counter";
 import heroBg from "@/assets/hero-bg.jpg";
@@ -8,7 +14,7 @@ import logo from "@/assets/logo.png";
 import {
   MapPin, Search, Globe, BarChart3, Phone, ArrowRight, Check,
   Zap, Target, MessageSquare, ChevronDown, Mail, Instagram,
-  Linkedin, Twitter, Sparkles, TrendingUp,
+  Linkedin, Twitter, Sparkles, TrendingUp, Star, Quote,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -34,6 +40,7 @@ function Index() {
       <Process />
       <BeforeAfter />
       <WhyUs />
+      <Testimonials />
       <FinalCTA />
       <Footer />
     </div>
@@ -295,26 +302,30 @@ function FinalCTA() {
     <section id="contact" className="relative py-24 md:py-40 px-6 bg-foreground text-background overflow-hidden">
       <div className="absolute inset-0 grid-bg opacity-50" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/30 blur-[120px] rounded-full" />
-      <div className="relative max-w-4xl mx-auto text-center">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/40 bg-primary/10 text-xs uppercase tracking-widest mb-8 reveal animate-pulse-glow">
-          <MessageSquare className="w-3.5 h-3.5 text-primary" />
-          Free visibility audit
+      <div className="relative max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="text-center lg:text-left">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/40 bg-primary/10 text-xs uppercase tracking-widest mb-8 reveal animate-pulse-glow">
+            <MessageSquare className="w-3.5 h-3.5 text-primary" />
+            Free visibility audit
+          </div>
+          <h2 className="font-display text-4xl md:text-6xl lg:text-7xl uppercase leading-[0.95] reveal">
+            Start getting more <span className="text-gradient-red">calls & clients.</span>
+          </h2>
+          <p className="mt-6 text-background/70 text-lg max-w-xl mx-auto lg:mx-0 reveal">
+            Tell us about your business. We'll send you a clear, actionable visibility report within 48 hours.
+          </p>
+          <ul className="mt-8 space-y-3 reveal max-w-md mx-auto lg:mx-0 text-left">
+            {["100% free, no commitment", "Personalized to your business", "Actionable report in 48h"].map((t) => (
+              <li key={t} className="flex items-center gap-3 text-background/80">
+                <span className="w-5 h-5 rounded-full bg-primary flex items-center justify-center shrink-0">
+                  <Check className="w-3 h-3 text-primary-foreground" strokeWidth={3} />
+                </span>
+                {t}
+              </li>
+            ))}
+          </ul>
         </div>
-        <h2 className="font-display text-5xl md:text-7xl lg:text-8xl uppercase leading-[0.95] reveal">
-          Start getting more <span className="text-gradient-red">calls & clients.</span>
-        </h2>
-        <p className="mt-8 text-background/70 text-lg max-w-xl mx-auto reveal">
-          We'll review your online presence and send you a clear, actionable report. No commitment. No fluff.
-        </p>
-        <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center reveal">
-          <Button variant="hero" size="xl" asChild>
-            <a href="mailto:contact@top3va.com">Request Your Audit <ArrowRight /></a>
-          </Button>
-          <Button variant="heroOutline" size="xl" asChild className="text-background border-background/30 hover:bg-background/10 hover:text-background">
-            <a href="mailto:contact@top3va.com">Talk to us</a>
-          </Button>
-        </div>
-        <p className="mt-6 text-sm text-background/50 reveal">No commitment. Clear insights.</p>
+        <AuditForm />
       </div>
     </section>
   );
@@ -325,7 +336,7 @@ function Footer() {
     <footer className="bg-background border-t border-border px-6 py-16">
       <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-10">
         <div className="md:col-span-2">
-          <img src={logo} alt="TOP3 VA" className="h-10 w-auto mb-4" />
+          <img src={logo} alt="TOP3 VA" className="h-20 w-auto mb-4" />
           <p className="text-muted-foreground max-w-sm text-sm leading-relaxed">
             We turn online visibility into real clients. Worldwide visibility agency built for results.
           </p>
@@ -359,5 +370,127 @@ function Footer() {
         <div className="flex items-center gap-2"><ChevronDown className="w-3 h-3 rotate-180" /> Built for visibility.</div>
       </div>
     </footer>
+  );
+}
+
+function Testimonials() {
+  const items = [
+    {
+      name: "Marco R.",
+      role: "Restaurant Owner, Milan",
+      text: "We went from invisible on Google to fully booked weekends. Calls tripled in the first month.",
+      rating: 5,
+    },
+    {
+      name: "Sarah L.",
+      role: "Dental Clinic, London",
+      text: "Clear strategy, fast execution, real results. Best investment we made for our practice.",
+      rating: 5,
+    },
+    {
+      name: "Diego P.",
+      role: "Auto Detailing, Madrid",
+      text: "No fluff. They rebuilt our presence and bookings doubled within 6 weeks. Highly recommended.",
+      rating: 5,
+    },
+  ];
+  return (
+    <section id="testimonials" className="py-24 md:py-32 px-6 bg-muted/40 border-y border-border">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-16 reveal">
+          <p className="text-primary font-semibold uppercase tracking-widest text-sm mb-4">Client stories</p>
+          <h2 className="font-display text-4xl md:text-6xl uppercase">
+            Real businesses. <span className="text-gradient-red">Real growth.</span>
+          </h2>
+        </div>
+        <div className="grid md:grid-cols-3 gap-6">
+          {items.map((t, i) => (
+            <div
+              key={t.name}
+              className="reveal relative p-8 rounded-2xl bg-background border border-border hover:border-primary/40 hover:shadow-elegant transition-all duration-500 hover:-translate-y-2"
+              style={{ transitionDelay: `${i * 80}ms` }}
+            >
+              <Quote className="absolute top-6 right-6 w-10 h-10 text-primary/15" />
+              <div className="flex gap-1 mb-4">
+                {Array.from({ length: t.rating }).map((_, k) => (
+                  <Star key={k} className="w-4 h-4 fill-primary text-primary" />
+                ))}
+              </div>
+              <p className="text-foreground/90 leading-relaxed mb-6">"{t.text}"</p>
+              <div className="pt-4 border-t border-border">
+                <div className="font-display uppercase text-lg">{t.name}</div>
+                <div className="text-muted-foreground text-sm">{t.role}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const auditSchema = z.object({
+  name: z.string().trim().min(2, "Please enter your name").max(100),
+  email: z.string().trim().email("Invalid email address").max(255),
+  website: z.string().trim().max(255).optional().or(z.literal("")),
+  goals: z.string().trim().min(10, "Tell us a bit more (min 10 chars)").max(1000),
+});
+
+function AuditForm() {
+  const [loading, setLoading] = useState(false);
+  const [form, setForm] = useState({ name: "", email: "", website: "", goals: "" });
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const result = auditSchema.safeParse(form);
+    if (!result.success) {
+      toast.error(result.error.issues[0]?.message ?? "Please check the form");
+      return;
+    }
+    setLoading(true);
+    try {
+      const subject = encodeURIComponent(`Visibility audit request — ${result.data.name}`);
+      const body = encodeURIComponent(
+        `Name: ${result.data.name}\nEmail: ${result.data.email}\nWebsite: ${result.data.website || "—"}\n\nGoals:\n${result.data.goals}`
+      );
+      window.location.href = `mailto:contact@top3va.com?subject=${subject}&body=${body}`;
+      toast.success("Opening your email — we'll reply within 48h.");
+      setForm({ name: "", email: "", website: "", goals: "" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <form
+      onSubmit={onSubmit}
+      className="reveal relative p-6 md:p-8 rounded-2xl bg-background text-foreground border border-border shadow-elegant"
+    >
+      <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-primary/30 via-transparent to-transparent opacity-50 -z-10 blur-md" />
+      <h3 className="font-display text-2xl md:text-3xl uppercase mb-1">Request your audit</h3>
+      <p className="text-muted-foreground text-sm mb-6">Free • 48h turnaround • No commitment</p>
+      <div className="space-y-4">
+        <div className="space-y-1.5">
+          <Label htmlFor="name">Your name</Label>
+          <Input id="name" placeholder="Jane Doe" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} maxLength={100} required />
+        </div>
+        <div className="space-y-1.5">
+          <Label htmlFor="email">Email</Label>
+          <Input id="email" type="email" placeholder="you@company.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} maxLength={255} required />
+        </div>
+        <div className="space-y-1.5">
+          <Label htmlFor="website">Website (optional)</Label>
+          <Input id="website" placeholder="https://yoursite.com" value={form.website} onChange={(e) => setForm({ ...form, website: e.target.value })} maxLength={255} />
+        </div>
+        <div className="space-y-1.5">
+          <Label htmlFor="goals">Your goals</Label>
+          <Textarea id="goals" placeholder="More calls? More bookings? Tell us what success looks like." rows={4} value={form.goals} onChange={(e) => setForm({ ...form, goals: e.target.value })} maxLength={1000} required />
+        </div>
+        <Button type="submit" variant="hero" size="lg" className="w-full" disabled={loading}>
+          {loading ? "Sending..." : (<>Get My Free Audit <ArrowRight /></>)}
+        </Button>
+        <p className="text-xs text-muted-foreground text-center">We respect your privacy. No spam, ever.</p>
+      </div>
+    </form>
   );
 }
