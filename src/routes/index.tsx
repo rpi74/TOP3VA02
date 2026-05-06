@@ -15,6 +15,7 @@ import {
   MapPin, Search, Globe, BarChart3, Phone, ArrowRight, Check,
   Zap, Target, MessageSquare, ChevronDown, Mail, Instagram,
   Linkedin, Twitter, Sparkles, TrendingUp, Star, Quote,
+  EyeOff, MousePointerClick, Users, DollarSign,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -35,6 +36,7 @@ function Index() {
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <Navbar />
       <Hero />
+      <Problem />
       <Trust />
       <Services />
       <Process />
@@ -49,60 +51,79 @@ function Index() {
 
 function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-foreground text-background">
-      <img
-        src={heroBg}
-        alt=""
-        className="absolute inset-0 w-full h-full object-cover opacity-60"
-        width={1920}
-        height={1080}
-      />
-      <div className="absolute inset-0 bg-gradient-to-b from-foreground/70 via-foreground/40 to-foreground" />
-      <div className="absolute inset-0 grid-bg opacity-40" />
+    <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-b from-background via-muted/40 to-background">
+      <div className="absolute inset-0 grid-bg opacity-30" />
+      <div className="absolute top-1/4 -right-20 w-[500px] h-[500px] bg-primary/15 blur-[120px] rounded-full" />
+      <div className="absolute bottom-0 -left-20 w-[400px] h-[400px] bg-accent/10 blur-[120px] rounded-full" />
 
-      {/* floating pin */}
-      <div className="absolute top-1/4 right-[10%] hidden lg:block animate-float-pin">
+      <div className="absolute top-[22%] right-[6%] hidden lg:block animate-float-pin">
         <div className="relative">
-          <div className="absolute inset-0 bg-primary blur-2xl opacity-50" />
+          <div className="absolute inset-0 bg-primary blur-2xl opacity-40" />
           <div className="relative w-20 h-20 rounded-full bg-primary flex items-center justify-center shadow-glow">
             <MapPin className="w-10 h-10 text-primary-foreground" strokeWidth={2.5} />
           </div>
         </div>
       </div>
-      <div className="absolute bottom-1/4 left-[8%] hidden lg:block animate-float-pin" style={{ animationDelay: "1.5s" }}>
-        <div className="w-12 h-12 rounded-full bg-accent/80 flex items-center justify-center shadow-glow">
-          <span className="text-background font-display text-xl">3</span>
-        </div>
-      </div>
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 text-center pt-24 pb-32">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-background/20 bg-background/5 backdrop-blur-sm text-xs uppercase tracking-widest mb-8 reveal">
-          <Sparkles className="w-3.5 h-3.5 text-primary" />
-          International Visibility Agency
+      <div className="relative z-10 max-w-6xl mx-auto px-6 pt-32 pb-24 w-full">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-border bg-background/80 backdrop-blur-sm text-xs uppercase tracking-widest mb-8 reveal">
+          <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+          Visibility Agency
         </div>
-        <h1 className="font-display text-5xl sm:text-7xl md:text-8xl lg:text-9xl leading-[0.9] uppercase reveal">
-          If you're not <span className="text-gradient-red">visible</span>,
-          <br />you don't <span className="italic font-light">exist.</span>
+        <h1 className="font-display text-6xl sm:text-7xl md:text-8xl lg:text-[9rem] leading-[0.85] uppercase reveal max-w-5xl">
+          Be Seen. <span className="text-gradient-red">Get Clients.</span><br />
+          Grow <span className="text-gradient-red">Faster.</span>
         </h1>
-        <p className="mt-8 text-lg md:text-xl text-background/70 max-w-2xl mx-auto reveal">
-          We help businesses get seen, get contacted, and turn visibility into real clients.
+        <p className="mt-8 text-lg md:text-xl text-muted-foreground max-w-2xl reveal">
+          We help businesses rank higher, attract ready-to-buy customers, and increase revenue through powerful websites and visibility strategies.
         </p>
-        <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 reveal">
+        <div className="mt-12 flex flex-col sm:flex-row items-start gap-4 reveal">
           <Button variant="hero" size="xl" asChild>
-            <a href="#contact">Get Your Visibility Audit <ArrowRight /></a>
+            <a href="#contact"><Phone className="w-5 h-5" /> Book Your Free Strategy Call</a>
           </Button>
-          <Button variant="heroOutline" size="xl" asChild className="text-background border-background/30 hover:bg-background/10 hover:text-background">
+          <Button variant="heroOutline" size="xl" asChild>
             <a href="#process">See How It Works</a>
           </Button>
         </div>
       </div>
+    </section>
+  );
+}
 
-      <a href="#trust" className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-background/60 hover:text-primary transition">
-        <span className="text-xs uppercase tracking-widest">Scroll</span>
-        <div className="w-6 h-10 rounded-full border-2 border-current flex items-start justify-center pt-2">
-          <div className="w-1 h-2 rounded-full bg-current animate-scroll-down" />
+function Problem() {
+  const pains = [
+    { Icon: EyeOff, t: "You don't show up on Google", d: "Customers searching for your service can't find you — they find competitors instead." },
+    { Icon: MousePointerClick, t: "Your site doesn't convert", d: "Visitors land, get confused, and bounce. No calls, no messages, no bookings." },
+    { Icon: Users, t: "Competitors steal your clients", d: "While you stay invisible, they capture the leads that should be yours." },
+    { Icon: DollarSign, t: "You leave money on the table", d: "Every day without visibility is revenue walking straight to someone else." },
+  ];
+  return (
+    <section className="py-24 md:py-32 px-6 bg-foreground text-background relative overflow-hidden">
+      <div className="absolute inset-0 grid-bg opacity-30" />
+      <div className="relative max-w-6xl mx-auto">
+        <div className="text-center mb-16 reveal">
+          <p className="text-primary font-semibold uppercase tracking-widest text-sm mb-4">The Problem</p>
+          <h2 className="font-display text-4xl md:text-6xl lg:text-7xl uppercase leading-[0.95]">
+            If you're <span className="text-gradient-red">invisible</span>,<br />
+            you leave money on the table.
+          </h2>
         </div>
-      </a>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+          {pains.map(({ Icon, t, d }, i) => (
+            <div
+              key={t}
+              className="reveal group relative p-6 rounded-2xl bg-background/5 border border-background/10 hover:border-primary/50 hover:bg-background/10 transition-all duration-500 hover:-translate-y-2"
+              style={{ transitionDelay: `${i * 80}ms` }}
+            >
+              <div className="w-12 h-12 rounded-xl bg-primary/15 text-primary flex items-center justify-center mb-5 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                <Icon className="w-6 h-6" />
+              </div>
+              <h3 className="font-display text-xl uppercase mb-2 leading-tight">{t}</h3>
+              <p className="text-background/60 text-sm leading-relaxed">{d}</p>
+            </div>
+          ))}
+        </div>
+      </div>
     </section>
   );
 }
