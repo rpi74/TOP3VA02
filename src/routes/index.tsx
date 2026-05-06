@@ -69,9 +69,9 @@ function Hero() {
           <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
           Visibility Agency
         </div>
-        <h1 className="font-display text-6xl sm:text-7xl md:text-8xl lg:text-[9rem] leading-[0.85] uppercase reveal max-w-5xl">
-          If you're not <span className="text-gradient-red">visible</span>,<br />
-          you don't <span className="text-gradient-red">exist.</span>
+        <h1 className="font-display font-black text-5xl sm:text-7xl md:text-8xl lg:text-[10rem] leading-[0.85] uppercase reveal max-w-6xl tracking-tight">
+          If you're not <span className="text-gradient-red">visible</span>,
+          <br />you don't <span className="text-gradient-red">exist.</span>
         </h1>
         <p className="mt-8 text-lg md:text-xl text-muted-foreground max-w-2xl reveal">
           We help businesses rank higher, attract ready-to-buy customers, and increase revenue through powerful websites and visibility strategies.
