@@ -50,7 +50,7 @@ function Index() {
 
 function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-b from-background via-muted/40 to-background">
+    <section className="relative flex items-center overflow-hidden bg-gradient-to-b from-background via-muted/40 to-background pt-28 md:pt-32 pb-16 md:pb-20">
       <div className="absolute inset-0 grid-bg opacity-30" />
       <div className="absolute top-1/4 -right-20 w-[500px] h-[500px] bg-primary/15 blur-[120px] rounded-full" />
       <div className="absolute bottom-0 -left-20 w-[400px] h-[400px] bg-accent/10 blur-[120px] rounded-full" />
@@ -64,8 +64,8 @@ function Hero() {
         </div>
       </div>
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 pt-32 pb-24 w-full">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-border bg-background/80 backdrop-blur-sm text-xs uppercase tracking-widest mb-8 reveal">
+      <div className="relative z-10 max-w-6xl mx-auto px-6 w-full">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-border bg-background/80 backdrop-blur-sm text-xs uppercase tracking-widest mb-5 reveal">
           <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
           Visibility Agency
         </div>
@@ -73,10 +73,10 @@ function Hero() {
           If you're not <span className="text-gradient-red">visible</span>,
           <br />you don't <span className="text-gradient-red">exist.</span>
         </h1>
-        <p className="mt-8 text-lg md:text-xl text-muted-foreground max-w-2xl reveal">
+        <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl reveal">
           We help businesses rank higher, attract ready-to-buy customers, and increase revenue through powerful websites and visibility strategies.
         </p>
-        <div className="mt-12 flex flex-col sm:flex-row items-start gap-4 reveal">
+        <div className="mt-8 flex flex-col sm:flex-row items-start gap-4 reveal">
           <Button variant="hero" size="xl" asChild>
             <a href="#contact"><Phone className="w-5 h-5" /> Book Your Free Strategy Call</a>
           </Button>
@@ -97,7 +97,7 @@ function Problem() {
     { Icon: DollarSign, t: "You leave money on the table", d: "Every day without visibility is revenue walking straight to someone else." },
   ];
   return (
-    <section className="py-24 md:py-32 px-6 bg-foreground text-background relative overflow-hidden">
+    <section className="py-16 md:py-20 px-6 bg-foreground text-background relative overflow-hidden">
       <div className="absolute inset-0 grid-bg opacity-30" />
       <div className="relative max-w-6xl mx-auto">
         <div className="text-center mb-16 reveal">
@@ -135,7 +135,7 @@ function Trust() {
     { v: 48, s: "h", l: "From audit to action" },
   ];
   return (
-    <section id="trust" className="py-24 md:py-32 px-6">
+    <section id="trust" className="py-16 md:py-20 px-6">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16 reveal">
           <p className="text-primary font-semibold uppercase tracking-widest text-sm mb-4">Visibility that converts</p>
@@ -169,7 +169,7 @@ function Services() {
     { Icon: Phone, t: "Contact & Booking Systems", d: "Turn visits into calls, messages and confirmed appointments on autopilot." },
   ];
   return (
-    <section id="services" className="py-24 md:py-32 px-6 bg-muted/40 border-y border-border">
+    <section id="services" className="py-16 md:py-20 px-6 bg-muted/40 border-y border-border">
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 reveal">
           <div>
@@ -213,7 +213,7 @@ function Process() {
     { n: "04", Icon: TrendingUp, t: "Results Focus", d: "We track calls, messages, conversions — not vanity metrics." },
   ];
   return (
-    <section id="process" className="py-24 md:py-32 px-6">
+    <section id="process" className="py-16 md:py-20 px-6">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-20 reveal">
           <p className="text-primary font-semibold uppercase tracking-widest text-sm mb-4">How it works</p>
@@ -241,7 +241,7 @@ function BeforeAfter() {
   const before = ["Cluttered & confusing", "Outdated design", "No clear call to action", "Invisible on Google"];
   const after = ["Clean & focused", "Modern, premium feel", "Conversion-driven CTAs", "Found by ready-to-buy clients"];
   return (
-    <section className="py-24 md:py-32 px-6 bg-foreground text-background overflow-hidden">
+    <section className="py-16 md:py-20 px-6 bg-foreground text-background overflow-hidden">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16 reveal">
           <p className="text-primary font-semibold uppercase tracking-widest text-sm mb-4">Before / After</p>
@@ -288,7 +288,7 @@ function WhyUs() {
     { t: "Clear communication", d: "One contact, weekly updates, no surprises." },
   ];
   return (
-    <section id="why" className="py-24 md:py-32 px-6">
+    <section id="why" className="py-16 md:py-20 px-6">
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
         <div className="reveal">
           <p className="text-primary font-semibold uppercase tracking-widest text-sm mb-4">Why choose us</p>
@@ -319,7 +319,7 @@ function WhyUs() {
 
 function FinalCTA() {
   return (
-    <section id="contact" className="relative py-24 md:py-40 px-6 bg-foreground text-background overflow-hidden">
+    <section id="contact" className="relative py-20 md:py-28 px-6 bg-foreground text-background overflow-hidden">
       <div className="absolute inset-0 grid-bg opacity-50" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/30 blur-[120px] rounded-full" />
       <div className="relative max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -415,7 +415,7 @@ function Testimonials() {
     },
   ];
   return (
-    <section id="testimonials" className="py-24 md:py-32 px-6 bg-muted/40 border-y border-border">
+    <section id="testimonials" className="py-16 md:py-20 px-6 bg-muted/40 border-y border-border">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16 reveal">
           <p className="text-primary font-semibold uppercase tracking-widest text-sm mb-4">Client stories</p>
