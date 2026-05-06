@@ -1,6 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useReveal } from "@/hooks/use-reveal";
+import { useState } from "react";
+import { z } from "zod";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 import { Navbar } from "@/components/site/Navbar";
 import { Counter } from "@/components/site/Counter";
 import heroBg from "@/assets/hero-bg.jpg";
@@ -8,7 +14,7 @@ import logo from "@/assets/logo.png";
 import {
   MapPin, Search, Globe, BarChart3, Phone, ArrowRight, Check,
   Zap, Target, MessageSquare, ChevronDown, Mail, Instagram,
-  Linkedin, Twitter, Sparkles, TrendingUp,
+  Linkedin, Twitter, Sparkles, TrendingUp, Star, Quote,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -34,6 +40,7 @@ function Index() {
       <Process />
       <BeforeAfter />
       <WhyUs />
+      <Testimonials />
       <FinalCTA />
       <Footer />
     </div>
@@ -295,26 +302,30 @@ function FinalCTA() {
     <section id="contact" className="relative py-24 md:py-40 px-6 bg-foreground text-background overflow-hidden">
       <div className="absolute inset-0 grid-bg opacity-50" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/30 blur-[120px] rounded-full" />
-      <div className="relative max-w-4xl mx-auto text-center">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/40 bg-primary/10 text-xs uppercase tracking-widest mb-8 reveal animate-pulse-glow">
-          <MessageSquare className="w-3.5 h-3.5 text-primary" />
-          Free visibility audit
+      <div className="relative max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="text-center lg:text-left">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/40 bg-primary/10 text-xs uppercase tracking-widest mb-8 reveal animate-pulse-glow">
+            <MessageSquare className="w-3.5 h-3.5 text-primary" />
+            Free visibility audit
+          </div>
+          <h2 className="font-display text-4xl md:text-6xl lg:text-7xl uppercase leading-[0.95] reveal">
+            Start getting more <span className="text-gradient-red">calls & clients.</span>
+          </h2>
+          <p className="mt-6 text-background/70 text-lg max-w-xl mx-auto lg:mx-0 reveal">
+            Tell us about your business. We'll send you a clear, actionable visibility report within 48 hours.
+          </p>
+          <ul className="mt-8 space-y-3 reveal max-w-md mx-auto lg:mx-0 text-left">
+            {["100% free, no commitment", "Personalized to your business", "Actionable report in 48h"].map((t) => (
+              <li key={t} className="flex items-center gap-3 text-background/80">
+                <span className="w-5 h-5 rounded-full bg-primary flex items-center justify-center shrink-0">
+                  <Check className="w-3 h-3 text-primary-foreground" strokeWidth={3} />
+                </span>
+                {t}
+              </li>
+            ))}
+          </ul>
         </div>
-        <h2 className="font-display text-5xl md:text-7xl lg:text-8xl uppercase leading-[0.95] reveal">
-          Start getting more <span className="text-gradient-red">calls & clients.</span>
-        </h2>
-        <p className="mt-8 text-background/70 text-lg max-w-xl mx-auto reveal">
-          We'll review your online presence and send you a clear, actionable report. No commitment. No fluff.
-        </p>
-        <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center reveal">
-          <Button variant="hero" size="xl" asChild>
-            <a href="mailto:contact@top3va.com">Request Your Audit <ArrowRight /></a>
-          </Button>
-          <Button variant="heroOutline" size="xl" asChild className="text-background border-background/30 hover:bg-background/10 hover:text-background">
-            <a href="mailto:contact@top3va.com">Talk to us</a>
-          </Button>
-        </div>
-        <p className="mt-6 text-sm text-background/50 reveal">No commitment. Clear insights.</p>
+        <AuditForm />
       </div>
     </section>
   );
