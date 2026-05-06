@@ -16,9 +16,9 @@ export function Navbar() {
         scrolled ? "border-b border-border shadow-sm" : ""
       }`}
     >
-      <nav className="max-w-7xl mx-auto px-6 h-24 md:h-28 flex items-center justify-between">
+      <nav className="max-w-7xl mx-auto px-6 h-32 md:h-36 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
-          <img src={logo} alt="TOP3 VA Visibility Agency" className="h-28 md:h-32 w-auto" />
+          <img src={logo} alt="TOP3 VA Visibility Agency" className="h-24 md:h-28 w-auto" />
         </Link>
         <div className="hidden md:flex items-center gap-8 text-sm font-medium">
           <a href="#services" className="hover:text-primary transition-colors">Services</a>
