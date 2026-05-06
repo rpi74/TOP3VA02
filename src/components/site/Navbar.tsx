@@ -16,9 +16,9 @@ export function Navbar() {
         scrolled ? "bg-background/85 backdrop-blur-md border-b border-border" : "bg-transparent"
       }`}
     >
-      <nav className="max-w-7xl mx-auto px-6 h-28 md:h-32 flex items-center justify-between">
+      <nav className="max-w-7xl mx-auto px-6 h-32 md:h-40 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
-          <img src={logo} alt="TOP3 VA Visibility Agency" className="h-24 md:h-28 w-auto" />
+          <img src={logo} alt="TOP3 VA Visibility Agency" className="h-32 md:h-40 w-auto" />
         </Link>
         <div className="hidden md:flex items-center gap-8 text-sm font-medium">
           <a href="#services" className="hover:text-primary transition-colors">Services</a>
