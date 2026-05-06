@@ -50,7 +50,7 @@ function Index() {
 
 function Hero() {
   return (
-    <section className="relative flex items-center overflow-hidden bg-gradient-to-b from-background via-muted/40 to-background pt-28 md:pt-32 pb-16 md:pb-20">
+    <section className="relative flex items-center overflow-hidden bg-gradient-to-b from-background via-muted/40 to-background pt-44 md:pt-52 pb-16 md:pb-20">
       <div className="absolute inset-0 grid-bg opacity-30" />
       <div className="absolute top-1/4 -right-20 w-[500px] h-[500px] bg-primary/15 blur-[120px] rounded-full" />
       <div className="absolute bottom-0 -left-20 w-[400px] h-[400px] bg-accent/10 blur-[120px] rounded-full" />
