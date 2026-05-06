@@ -1,6 +1,7 @@
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700;800&display=swap");
 
 @custom-variant dark (&:is(.dark *));
 
@@ -59,29 +60,37 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --font-display: "Anton", "Oswald", system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, sans-serif;
 }
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
+  --background: oklch(0.99 0 0);
+  --foreground: oklch(0.12 0 0);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
+  --card-foreground: oklch(0.12 0 0);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
+  --popover-foreground: oklch(0.12 0 0);
+  --primary: oklch(0.58 0.24 27);
+  --primary-foreground: oklch(0.99 0 0);
+  --primary-glow: oklch(0.65 0.27 28);
+  --secondary: oklch(0.12 0 0);
+  --secondary-foreground: oklch(0.99 0 0);
+  --muted: oklch(0.96 0 0);
+  --muted-foreground: oklch(0.45 0 0);
+  --accent: oklch(0.5 0.22 260);
+  --accent-foreground: oklch(0.99 0 0);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
+  --border: oklch(0.92 0 0);
+  --input: oklch(0.92 0 0);
+  --ring: oklch(0.58 0.24 27);
+  --gradient-hero: linear-gradient(135deg, oklch(0.12 0 0), oklch(0.18 0.05 27));
+  --gradient-primary: linear-gradient(135deg, var(--primary), var(--primary-glow));
+  --shadow-glow: 0 0 40px oklch(0.58 0.24 27 / 0.4);
+  --shadow-elegant: 0 20px 60px -20px oklch(0.12 0 0 / 0.3);
+  --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -140,5 +149,58 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: 0.01em;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  .text-gradient-red {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .bg-gradient-hero { background: var(--gradient-hero); }
+  .bg-gradient-primary { background: var(--gradient-primary); }
+  .shadow-glow { box-shadow: var(--shadow-glow); }
+  .shadow-elegant { box-shadow: var(--shadow-elegant); }
+
+  @keyframes float-pin {
+    0%,100% { transform: translateY(0) rotate(-6deg); }
+    50% { transform: translateY(-18px) rotate(6deg); }
+  }
+  .animate-float-pin { animation: float-pin 5s ease-in-out infinite; }
+
+  @keyframes pulse-glow {
+    0%,100% { box-shadow: 0 0 0 0 oklch(0.58 0.24 27 / 0.6); }
+    50% { box-shadow: 0 0 30px 10px oklch(0.58 0.24 27 / 0); }
+  }
+  .animate-pulse-glow { animation: pulse-glow 2.4s ease-out infinite; }
+
+  @keyframes scroll-down {
+    0% { transform: translateY(0); opacity: 0; }
+    40% { opacity: 1; }
+    100% { transform: translateY(14px); opacity: 0; }
+  }
+  .animate-scroll-down { animation: scroll-down 1.8s ease-in-out infinite; }
+
+  .reveal { opacity: 0; transform: translateY(24px); transition: all 0.8s var(--transition-smooth); }
+  .reveal.in-view { opacity: 1; transform: translateY(0); }
+
+  .grid-bg {
+    background-image:
+      linear-gradient(oklch(1 0 0 / 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, oklch(1 0 0 / 0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
   }
 }
