@@ -14,6 +14,7 @@ import teamOffice from "@/assets/team-office.png";
 import teamMember from "@/assets/team-member.png";
 import teamDashboard from "@/assets/team-dashboard.png";
 import teamWhiteboard from "@/assets/team-whiteboard.png";
+import teamGroup from "@/assets/team-group.png";
 import {
   MapPin, Search, Globe, BarChart3, Phone, ArrowRight, Check,
   Zap, Target, MessageSquare, ChevronDown, Mail, Instagram,
@@ -193,6 +194,9 @@ function BehindTheScenes() {
           </div>
           <div className="relative aspect-square rounded-2xl overflow-hidden border border-border group">
             <img src={teamWhiteboard} alt="Team strategizing visibility plan on whiteboard" loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+          </div>
+          <div className="relative aspect-square rounded-2xl overflow-hidden border border-border group">
+            <img src={teamGroup} alt="TOP3-VA team standing together in the office" loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
           </div>
           <div className="relative aspect-square col-span-2 md:col-span-2 rounded-2xl overflow-hidden border border-border group">
             <img src={teamDashboard} alt="Team reviewing client growth metrics" loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
