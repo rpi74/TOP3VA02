@@ -9,12 +9,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Navbar } from "@/components/site/Navbar";
 import { Counter } from "@/components/site/Counter";
-import heroBg from "@/assets/hero-bg.jpg";
 import logo from "@/assets/logo.png";
 import {
   MapPin, Search, Globe, BarChart3, Phone, ArrowRight, Check,
   Zap, Target, MessageSquare, ChevronDown, Mail, Instagram,
-  Linkedin, Twitter, Sparkles, TrendingUp, Star, Quote,
+  Linkedin, Twitter, TrendingUp, Star, Quote,
   EyeOff, MousePointerClick, Users, DollarSign,
 } from "lucide-react";
 
