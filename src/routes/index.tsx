@@ -69,7 +69,7 @@ function Hero() {
           <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
           Visibility Agency
         </div>
-        <h1 className="font-display text-[clamp(2.75rem,10vw,10rem)] leading-[0.85] uppercase reveal max-w-6xl tracking-[-0.03em]">
+        <h1 className="font-display text-[clamp(2rem,7.5vw,7.5rem)] leading-[1.05] uppercase reveal max-w-6xl tracking-[-0.02em]">
           If you're not <span className="text-gradient-red">visible</span>,
           <br />you don't <span className="text-gradient-red">exist.</span>
         </h1>
