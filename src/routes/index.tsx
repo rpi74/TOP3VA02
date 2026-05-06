@@ -50,7 +50,7 @@ function Index() {
 
 function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-b from-background via-muted/40 to-background">
+    <section className="relative flex items-center overflow-hidden bg-gradient-to-b from-background via-muted/40 to-background pt-28 md:pt-32 pb-16 md:pb-20">
       <div className="absolute inset-0 grid-bg opacity-30" />
       <div className="absolute top-1/4 -right-20 w-[500px] h-[500px] bg-primary/15 blur-[120px] rounded-full" />
       <div className="absolute bottom-0 -left-20 w-[400px] h-[400px] bg-accent/10 blur-[120px] rounded-full" />
@@ -64,8 +64,8 @@ function Hero() {
         </div>
       </div>
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 pt-32 pb-24 w-full">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-border bg-background/80 backdrop-blur-sm text-xs uppercase tracking-widest mb-8 reveal">
+      <div className="relative z-10 max-w-6xl mx-auto px-6 w-full">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-border bg-background/80 backdrop-blur-sm text-xs uppercase tracking-widest mb-5 reveal">
           <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
           Visibility Agency
         </div>
@@ -73,10 +73,10 @@ function Hero() {
           If you're not <span className="text-gradient-red">visible</span>,
           <br />you don't <span className="text-gradient-red">exist.</span>
         </h1>
-        <p className="mt-8 text-lg md:text-xl text-muted-foreground max-w-2xl reveal">
+        <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl reveal">
           We help businesses rank higher, attract ready-to-buy customers, and increase revenue through powerful websites and visibility strategies.
         </p>
-        <div className="mt-12 flex flex-col sm:flex-row items-start gap-4 reveal">
+        <div className="mt-8 flex flex-col sm:flex-row items-start gap-4 reveal">
           <Button variant="hero" size="xl" asChild>
             <a href="#contact"><Phone className="w-5 h-5" /> Book Your Free Strategy Call</a>
           </Button>
