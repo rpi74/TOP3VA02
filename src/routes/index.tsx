@@ -70,8 +70,8 @@ function Hero() {
           Visibility Agency
         </div>
         <h1 className="font-display text-6xl sm:text-7xl md:text-8xl lg:text-[9rem] leading-[0.85] uppercase reveal max-w-5xl">
-          Be Seen. <span className="text-gradient-red">Get Clients.</span><br />
-          Grow <span className="text-gradient-red">Faster.</span>
+          If you're not <span className="text-gradient-red">visible</span>,<br />
+          you don't <span className="text-gradient-red">exist.</span>
         </h1>
         <p className="mt-8 text-lg md:text-xl text-muted-foreground max-w-2xl reveal">
           We help businesses rank higher, attract ready-to-buy customers, and increase revenue through powerful websites and visibility strategies.
