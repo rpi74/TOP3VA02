@@ -353,8 +353,8 @@ function Footer() {
         <div>
           <h4 className="font-display uppercase mb-4">Contact</h4>
           <ul className="space-y-2 text-sm text-muted-foreground">
-            <li className="flex items-center gap-2"><Mail className="w-4 h-4" /> contact@top3va.com</li>
-            <li className="flex items-center gap-2"><Globe className="w-4 h-4" /> Worldwide</li>
+            <li className="flex items-center gap-2"><Mail className="w-4 h-4" /><span>contact@top3va.com</span></li>
+            <li className="flex items-center gap-2"><Globe className="w-4 h-4" /><span>Worldwide</span></li>
           </ul>
           <div className="flex gap-3 mt-4">
             {[Instagram, Linkedin, Twitter].map((I, i) => (
