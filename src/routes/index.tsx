@@ -153,13 +153,13 @@ function Trust() {
             Less technical complexity, more results that move the needle: more calls, more messages, more booked appointments.
           </p>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-border rounded-2xl overflow-hidden border border-border reveal">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-border rounded-2xl overflow-hidden border border-border reveal">
           {stats.map((st) => (
-            <div key={st.l} className="bg-background p-8 text-center hover:bg-muted transition-colors">
-              <div className="font-display text-4xl md:text-6xl text-foreground">
+            <div key={st.l} className="bg-background p-5 sm:p-8 text-center hover:bg-muted transition-colors flex flex-col justify-center">
+              <div className="font-display text-[clamp(1.5rem,8vw,2.25rem)] sm:text-4xl md:text-5xl lg:text-6xl text-foreground tracking-tight sm:tracking-normal whitespace-nowrap">
                 <Counter to={st.v} suffix={st.s} />
               </div>
-              <div className="mt-3 text-xs md:text-sm uppercase tracking-wider text-muted-foreground">{st.l}</div>
+              <div className="mt-2 sm:mt-3 text-[10px] sm:text-xs md:text-sm uppercase tracking-wider text-muted-foreground leading-tight sm:leading-normal">{st.l}</div>
             </div>
           ))}
         </div>
