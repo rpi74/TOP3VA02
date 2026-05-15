@@ -81,7 +81,7 @@ function Hero() {
           <span className="block md:whitespace-nowrap">...you don't <span className="text-gradient-red">exist</span></span>
         </h1>
         <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl reveal">
-          We help businesses rank higher, attract ready-to-buy customers, and increase revenue through powerful websites and visibility strategies.
+          Every day without visibility is revenue walking straight to your competitor. We make sure the right customers find you first — not them
         </p>
         <div className="mt-8 flex flex-col sm:flex-row items-start gap-4 reveal">
           <Button variant="hero" size="xl" asChild>
