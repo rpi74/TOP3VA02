@@ -10,11 +10,11 @@ import { Label } from "@/components/ui/label";
 import { Navbar } from "@/components/site/Navbar";
 import { Counter } from "@/components/site/Counter";
 import logo from "@/assets/logo.png";
-import teamOffice from "@/assets/team-office.png";
-import teamMember from "@/assets/team-member.png";
-import teamDashboard from "@/assets/team-dashboard.png";
-import teamWhiteboard from "@/assets/team-whiteboard.png";
-import teamGroup from "@/assets/team-group.png";
+import teamOffice from "@/assets/team-office.webp";
+import teamMember from "@/assets/team-member.webp";
+import teamDashboard from "@/assets/team-dashboard.webp";
+import teamWhiteboard from "@/assets/team-whiteboard.webp";
+import teamGroup from "@/assets/team-group.webp";
 import {
   MapPin, Search, Globe, BarChart3, Phone, ArrowRight, Check,
   Zap, Target, MessageSquare, ChevronDown, Mail, Instagram,
@@ -169,37 +169,50 @@ function Trust() {
 
 function BehindTheScenes() {
   return (
-    <section className="py-16 md:py-20 px-6 bg-muted/30 border-y border-border">
+    <section className="py-20 md:py-28 px-6 bg-background">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12 reveal">
-          <p className="text-primary font-semibold uppercase tracking-widest text-sm mb-4">Behind the scenes</p>
-          <h2 className="font-display text-4xl md:text-6xl uppercase leading-tight">
-            A real team. <span className="text-gradient-red">Real work.</span>
-          </h2>
-          <p className="mt-6 text-muted-foreground max-w-2xl mx-auto text-lg">
-            No outsourced freelancers. No black boxes. A dedicated team obsessed with your visibility and your results.
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 md:mb-16 gap-6 reveal">
+          <div className="max-w-2xl">
+            <p className="text-primary font-semibold uppercase tracking-widest text-sm mb-4 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-primary animate-pulse" /> Behind the scenes
+            </p>
+            <h2 className="font-display text-4xl md:text-5xl lg:text-6xl uppercase leading-[0.95]">
+              Real work.<br />
+              <span className="text-muted-foreground">Real execution.</span>
+            </h2>
+          </div>
+          <p className="text-muted-foreground max-w-sm text-lg leading-relaxed md:pb-1">
+            No outsourced freelancers. No black boxes. We are a dedicated team obsessed with building dominant visibility and growth systems for ambitious brands.
           </p>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 reveal">
-          <div className="relative md:col-span-2 md:row-span-2 aspect-square md:aspect-auto rounded-2xl overflow-hidden border border-border group">
-            <img src={teamOffice} alt="TOP3-VA office and team at work" loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-            <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-transparent to-transparent" />
-            <div className="absolute bottom-5 left-5 right-5 text-background">
-              <div className="text-xs uppercase tracking-widest opacity-80">Our HQ</div>
-              <div className="font-display text-xl md:text-2xl uppercase">Where visibility is built</div>
+        
+        <div className="grid grid-cols-2 md:grid-cols-4 md:grid-rows-2 gap-4 md:gap-5 reveal">
+          {/* Featured Image */}
+          <div className="relative col-span-2 md:col-span-2 md:row-span-2 rounded-2xl md:rounded-3xl overflow-hidden border border-border/50 bg-muted group min-h-[300px] md:min-h-[500px]">
+            <img src={teamOffice} alt="TOP3-VA office and execution team" loading="lazy" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            <div className="absolute bottom-6 left-6 right-6 text-white">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[10px] sm:text-xs uppercase tracking-widest mb-3">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                HQ & Strategy
+              </div>
+              <div className="font-display text-2xl sm:text-3xl uppercase leading-[1.1]">The strategy & execution behind market-leading brands</div>
             </div>
           </div>
-          <div className="relative aspect-square rounded-2xl overflow-hidden border border-border group">
-            <img src={teamMember} alt="TOP3-VA specialist analyzing client dashboards" loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+          
+          {/* Supporting Image Wide */}
+          <div className="relative col-span-2 md:col-span-2 md:row-span-1 rounded-2xl md:rounded-3xl overflow-hidden border border-border/50 bg-muted group aspect-[2/1] md:aspect-auto">
+            <img src={teamGroup} alt="TOP3-VA team collaboration" loading="lazy" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
           </div>
-          <div className="relative aspect-square rounded-2xl overflow-hidden border border-border group">
-            <img src={teamWhiteboard} alt="Team strategizing visibility plan on whiteboard" loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+          
+          {/* Supporting Image Square 1 */}
+          <div className="relative col-span-1 md:col-span-1 md:row-span-1 rounded-2xl md:rounded-3xl overflow-hidden border border-border/50 bg-muted group aspect-square md:aspect-auto">
+            <img src={teamDashboard} alt="Client growth metrics" loading="lazy" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
           </div>
-          <div className="relative aspect-square rounded-2xl overflow-hidden border border-border group">
-            <img src={teamGroup} alt="TOP3-VA team standing together in the office" loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-          </div>
-          <div className="relative aspect-square col-span-2 md:col-span-2 rounded-2xl overflow-hidden border border-border group">
-            <img src={teamDashboard} alt="Team reviewing client growth metrics" loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+          
+          {/* Supporting Image Square 2 */}
+          <div className="relative col-span-1 md:col-span-1 md:row-span-1 rounded-2xl md:rounded-3xl overflow-hidden border border-border/50 bg-muted group aspect-square md:aspect-auto">
+            <img src={teamWhiteboard} alt="Strategizing visibility plan" loading="lazy" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
           </div>
         </div>
       </div>
@@ -210,7 +223,7 @@ function BehindTheScenes() {
 function Services() {
   const items = [
     { Icon: Globe, t: "Website Design & Creation", d: "Simple, modern, conversion-focused websites that turn visitors into clients." },
-    { Icon: Search, t: "Google Visibility Optimization", d: "Get found exactly when people search for your services in your area." },
+    { Icon: Search, t: "Search Visibility Optimization", d: "Get found exactly when your ideal clients are actively searching for your solutions." },
     { Icon: BarChart3, t: "Online Presence Audit", d: "We pinpoint exactly what's costing you leads — and how to fix it fast." },
     { Icon: Phone, t: "Contact & Booking Systems", d: "Turn visits into calls, messages and confirmed appointments on autopilot." },
   ];
@@ -342,7 +355,7 @@ function WhyUs() {
             Agencies talk. We <span className="text-gradient-red">deliver.</span>
           </h2>
           <p className="mt-6 text-muted-foreground text-lg max-w-md">
-            Built for business owners who want one thing: more qualified clients walking through the door.
+            Built for business leaders who want one thing: a consistent stream of highly qualified clients and measurable growth.
           </p>
         </div>
         <ul className="space-y-5">
