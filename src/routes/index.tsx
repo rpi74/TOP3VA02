@@ -15,10 +15,11 @@ import teamMember from "@/assets/team-member.webp";
 import teamDashboard from "@/assets/team-dashboard.webp";
 import teamWhiteboard from "@/assets/team-whiteboard.webp";
 import teamGroup from "@/assets/team-group.webp";
+import contactBg from "@/assets/contact-bg.webp";
 import {
   MapPin, Search, Globe, BarChart3, Phone, ArrowRight, Check,
   Zap, Target, MessageSquare, ChevronDown, Mail, Instagram,
-  Linkedin, Twitter, TrendingUp, Star, Quote,
+  Facebook, TrendingUp, Star, Quote,
   EyeOff, MousePointerClick, Users, DollarSign,
 } from "lucide-react";
 
@@ -382,27 +383,42 @@ function FinalCTA() {
       <div className="absolute inset-0 grid-bg opacity-50" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/30 blur-[120px] rounded-full" />
       <div className="relative max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-        <div className="text-center lg:text-left">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/40 bg-primary/10 text-xs uppercase tracking-widest mb-8 reveal animate-pulse-glow">
-            <MessageSquare className="w-3.5 h-3.5 text-primary" />
-            Free visibility audit
+        <div className="relative text-center lg:text-left">
+          {/* Subtle Background Layer */}
+          <div 
+            className="absolute -inset-10 md:-inset-20 z-0 pointer-events-none select-none opacity-90" 
+            style={{ 
+              maskImage: 'radial-gradient(ellipse at 70% 60%, black 20%, transparent 80%)', 
+              WebkitMaskImage: 'radial-gradient(ellipse at 70% 60%, black 20%, transparent 80%)' 
+            }}
+          >
+            <img src={contactBg} alt="" className="w-full h-full object-cover object-center" />
+            <div className="absolute inset-0 bg-gradient-to-br from-foreground via-foreground/70 to-foreground/10" />
           </div>
-          <h2 className="font-display text-4xl md:text-6xl lg:text-7xl uppercase leading-[0.95] reveal">
-            Start getting more <span className="text-gradient-red">calls & clients.</span>
-          </h2>
-          <p className="mt-6 text-background/70 text-lg max-w-xl mx-auto lg:mx-0 reveal">
-            Tell us about your business. We'll send you a clear, actionable visibility report within 48 hours.
-          </p>
-          <ul className="mt-8 space-y-3 reveal max-w-md mx-auto lg:mx-0 text-left">
-            {["100% free, no commitment", "Personalized to your business", "Actionable report in 48h"].map((t) => (
-              <li key={t} className="flex items-center gap-3 text-background/80">
-                <span className="w-5 h-5 rounded-full bg-primary flex items-center justify-center shrink-0">
-                  <Check className="w-3 h-3 text-primary-foreground" strokeWidth={3} />
-                </span>
-                {t}
-              </li>
-            ))}
-          </ul>
+
+          {/* Content Layer */}
+          <div className="relative z-10">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/40 bg-primary/10 text-xs uppercase tracking-widest mb-8 reveal animate-pulse-glow">
+              <MessageSquare className="w-3.5 h-3.5 text-primary" />
+              Free visibility audit
+            </div>
+            <h2 className="font-display text-4xl md:text-6xl lg:text-7xl uppercase leading-[0.95] reveal">
+              Start getting more <span className="text-gradient-red">calls & clients.</span>
+            </h2>
+            <p className="mt-6 text-background/70 text-lg max-w-xl mx-auto lg:mx-0 reveal">
+              Tell us about your business. We'll send you a clear, actionable visibility report within 48 hours.
+            </p>
+            <ul className="mt-8 space-y-3 reveal max-w-md mx-auto lg:mx-0 text-left">
+              {["100% free, no commitment", "Personalized to your business", "Actionable report in 48h"].map((t) => (
+                <li key={t} className="flex items-center gap-3 text-background/80">
+                  <span className="w-5 h-5 rounded-full bg-primary flex items-center justify-center shrink-0">
+                    <Check className="w-3 h-3 text-primary-foreground" strokeWidth={3} />
+                  </span>
+                  {t}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
         <AuditForm />
       </div>
@@ -417,7 +433,7 @@ function Footer() {
         <div className="md:col-span-2">
           <img src={logo} alt="TOP3 VA" className="h-20 w-auto mb-4" />
           <p className="text-muted-foreground max-w-sm text-sm leading-relaxed">
-            We turn online visibility into real clients. Worldwide visibility agency built for results.
+            Your business, seen. Your brand, trusted.
           </p>
         </div>
         <div>
@@ -432,13 +448,20 @@ function Footer() {
         <div>
           <h4 className="font-display uppercase mb-4">Contact</h4>
           <ul className="space-y-2 text-sm text-muted-foreground">
-            <li className="flex items-center gap-2"><Mail className="w-4 h-4" /><span>contact@top3va.com</span></li>
+            <li>
+              <a href="mailto:contact@top3va.com?subject=Free%20Visibility%20Audit%20Inquiry" className="flex items-center gap-2 hover:text-primary transition-colors">
+                <Mail className="w-4 h-4" /><span>contact@top3va.com</span>
+              </a>
+            </li>
             <li className="flex items-center gap-2"><Globe className="w-4 h-4" /><span>Worldwide</span></li>
           </ul>
           <div className="flex gap-3 mt-4">
-            {[Instagram, Linkedin, Twitter].map((I, i) => (
-              <a key={i} href="#" className="w-9 h-9 rounded-full border border-border flex items-center justify-center hover:bg-primary hover:text-primary-foreground hover:border-primary transition">
-                <I className="w-4 h-4" />
+            {[
+              { Icon: Facebook, href: "https://facebook.com/top3va" },
+              { Icon: Instagram, href: "https://instagram.com/top3va" }
+            ].map(({ Icon, href }, i) => (
+              <a key={i} href={href} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full border border-border flex items-center justify-center hover:bg-primary hover:text-primary-foreground hover:border-primary transition">
+                <Icon className="w-4 h-4" />
               </a>
             ))}
           </div>
