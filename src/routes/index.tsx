@@ -253,9 +253,7 @@ function Services() {
                 </div>
                 <h3 className="font-display text-2xl md:text-3xl uppercase mb-3">{t}</h3>
                 <p className="text-muted-foreground leading-relaxed">{d}</p>
-                <div className="mt-6 flex items-center gap-2 text-sm font-semibold text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-                  Learn more <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </div>
+
               </div>
             </div>
           ))}
