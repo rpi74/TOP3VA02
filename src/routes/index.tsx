@@ -1,3 +1,4 @@
+import { supabase } from '../lib/supabase';
 import { createFileRoute } from "@tanstack/react-router";
 import { useReveal } from "@/hooks/use-reveal";
 import { useState } from "react";
@@ -186,7 +187,7 @@ function BehindTheScenes() {
             No outsourced freelancers. No black boxes. We are a dedicated team obsessed with building dominant visibility and growth systems for ambitious brands.
           </p>
         </div>
-        
+
         <div className="grid grid-cols-2 md:grid-cols-4 md:grid-rows-2 gap-4 md:gap-5 reveal">
           {/* Featured Image */}
           <div className="relative col-span-2 md:col-span-2 md:row-span-2 rounded-2xl md:rounded-3xl overflow-hidden border border-border/50 bg-muted group min-h-[300px] md:min-h-[500px]">
@@ -200,17 +201,17 @@ function BehindTheScenes() {
               <div className="font-display text-2xl sm:text-3xl uppercase leading-[1.1]">The strategy & execution behind market-leading brands</div>
             </div>
           </div>
-          
+
           {/* Supporting Image Wide */}
           <div className="relative col-span-2 md:col-span-2 md:row-span-1 rounded-2xl md:rounded-3xl overflow-hidden border border-border/50 bg-muted group aspect-[2/1] md:aspect-auto">
             <img src={teamGroup} alt="TOP3-VA team collaboration" loading="lazy" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
           </div>
-          
+
           {/* Supporting Image Square 1 */}
           <div className="relative col-span-1 md:col-span-1 md:row-span-1 rounded-2xl md:rounded-3xl overflow-hidden border border-border/50 bg-muted group aspect-square md:aspect-auto">
             <img src={teamDashboard} alt="Client growth metrics" loading="lazy" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
           </div>
-          
+
           {/* Supporting Image Square 2 */}
           <div className="relative col-span-1 md:col-span-1 md:row-span-1 rounded-2xl md:rounded-3xl overflow-hidden border border-border/50 bg-muted group aspect-square md:aspect-auto">
             <img src={teamWhiteboard} alt="Strategizing visibility plan" loading="lazy" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
@@ -383,11 +384,11 @@ function FinalCTA() {
       <div className="relative max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
         <div className="relative text-center lg:text-left">
           {/* Subtle Background Layer */}
-          <div 
-            className="absolute -inset-10 md:-inset-20 z-0 pointer-events-none select-none opacity-90" 
-            style={{ 
-              maskImage: 'radial-gradient(ellipse at 70% 60%, black 20%, transparent 80%)', 
-              WebkitMaskImage: 'radial-gradient(ellipse at 70% 60%, black 20%, transparent 80%)' 
+          <div
+            className="absolute -inset-10 md:-inset-20 z-0 pointer-events-none select-none opacity-90"
+            style={{
+              maskImage: 'radial-gradient(ellipse at 70% 60%, black 20%, transparent 80%)',
+              WebkitMaskImage: 'radial-gradient(ellipse at 70% 60%, black 20%, transparent 80%)'
             }}
           >
             <img src={contactBg} alt="" className="w-full h-full object-cover object-center" />
@@ -542,25 +543,36 @@ function AuditForm() {
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     const result = auditSchema.safeParse(form);
     if (!result.success) {
       toast.error(result.error.issues[0]?.message ?? "Please check the form");
       return;
     }
+
     setLoading(true);
+
     try {
-      const subject = encodeURIComponent(`Visibility audit request — ${result.data.name}`);
-      const body = encodeURIComponent(
-        `Name: ${result.data.name}\nEmail: ${result.data.email}\nWebsite: ${result.data.website || "—"}\n\nGoals:\n${result.data.goals}`
-      );
-      window.location.href = `mailto:contact@top3va.com?subject=${subject}&body=${body}`;
-      toast.success("Opening your email — we'll reply within 48h.");
+      const { error } = await supabase.from('audit_requests').insert({
+        name: result.data.name,
+        email: result.data.email,
+        website: result.data.website || null,
+        goals: result.data.goals,
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      toast.success("Request sent successfully. We'll reply within 48h.");
       setForm({ name: "", email: "", website: "", goals: "" });
+    } catch (error) {
+      console.error('Supabase insert error:', error);
+      toast.error("Something went wrong while sending your request.");
     } finally {
       setLoading(false);
     }
   };
-
   return (
     <form
       onSubmit={onSubmit}
