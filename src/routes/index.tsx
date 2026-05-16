@@ -539,6 +539,7 @@ const auditSchema = z.object({
 
 function AuditForm() {
   const [loading, setLoading] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", website: "", goals: "" });
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -553,7 +554,9 @@ function AuditForm() {
     setLoading(true);
 
     try {
-      const { error } = await supabase.from('audit_requests').insert({
+      setSubmitSuccess(false);
+
+      const { error } = await supabase.from("audit_requests").insert({
         name: result.data.name,
         email: result.data.email,
         website: result.data.website || null,
@@ -564,15 +567,18 @@ function AuditForm() {
         throw error;
       }
 
-      toast.success("Request sent successfully. We'll reply within 48h.");
+      setSubmitSuccess(true);
+      toast.success("Request received successfully.");
       setForm({ name: "", email: "", website: "", goals: "" });
     } catch (error) {
-      console.error('Supabase insert error:', error);
+      console.error("Supabase insert error:", error);
+      setSubmitSuccess(false);
       toast.error("Something went wrong while sending your request.");
     } finally {
       setLoading(false);
     }
   };
+
   return (
     <form
       onSubmit={onSubmit}
@@ -581,27 +587,87 @@ function AuditForm() {
       <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-primary/30 via-transparent to-transparent opacity-50 -z-10 blur-md" />
       <h3 className="font-display text-2xl md:text-3xl uppercase mb-1">Request your audit</h3>
       <p className="text-muted-foreground text-sm mb-6">Free • 48h turnaround • No commitment</p>
+
       <div className="space-y-4">
         <div className="space-y-1.5">
           <Label htmlFor="name">Your name</Label>
-          <Input id="name" placeholder="Jane Doe" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} maxLength={100} required />
+          <Input
+            id="name"
+            placeholder="Jane Doe"
+            value={form.name}
+            onChange={(e) => {
+              setSubmitSuccess(false);
+              setForm({ ...form, name: e.target.value });
+            }}
+            maxLength={100}
+            required
+          />
         </div>
+
         <div className="space-y-1.5">
           <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" placeholder="you@company.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} maxLength={255} required />
+          <Input
+            id="email"
+            type="email"
+            placeholder="you@company.com"
+            value={form.email}
+            onChange={(e) => {
+              setSubmitSuccess(false);
+              setForm({ ...form, email: e.target.value });
+            }}
+            maxLength={255}
+            required
+          />
         </div>
+
         <div className="space-y-1.5">
           <Label htmlFor="website">Website (optional)</Label>
-          <Input id="website" placeholder="https://yoursite.com" value={form.website} onChange={(e) => setForm({ ...form, website: e.target.value })} maxLength={255} />
+          <Input
+            id="website"
+            placeholder="https://yoursite.com"
+            value={form.website}
+            onChange={(e) => {
+              setSubmitSuccess(false);
+              setForm({ ...form, website: e.target.value });
+            }}
+            maxLength={255}
+          />
         </div>
+
         <div className="space-y-1.5">
           <Label htmlFor="goals">Your goals</Label>
-          <Textarea id="goals" placeholder="More calls? More bookings? Tell us what success looks like." rows={4} value={form.goals} onChange={(e) => setForm({ ...form, goals: e.target.value })} maxLength={1000} required />
+          <Textarea
+            id="goals"
+            placeholder="More calls? More bookings? Tell us what success looks like."
+            rows={4}
+            value={form.goals}
+            onChange={(e) => {
+              setSubmitSuccess(false);
+              setForm({ ...form, goals: e.target.value });
+            }}
+            maxLength={1000}
+            required
+          />
         </div>
+
+        {submitSuccess && (
+          <div
+            role="status"
+            aria-live="polite"
+            className="rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800"
+          >
+            <p className="font-medium">Request received.</p>
+            <p>We’ll review your site and contact you shortly.</p>
+          </div>
+        )}
+
         <Button type="submit" variant="hero" size="lg" className="w-full" disabled={loading}>
           {loading ? "Sending..." : (<>Get My Free Audit <ArrowRight /></>)}
         </Button>
-        <p className="text-xs text-muted-foreground text-center">We respect your privacy. No spam, ever.</p>
+
+        <p className="text-xs text-muted-foreground text-center">
+          We respect your privacy. No spam, ever.
+        </p>
       </div>
     </form>
   );
