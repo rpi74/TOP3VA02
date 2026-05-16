@@ -654,13 +654,25 @@ function AuditForm() {
           <div
             role="status"
             aria-live="polite"
-            className="rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800"
+            className="rounded-2xl border border-emerald-200/70 bg-emerald-50 px-4 py-4 shadow-sm"
           >
-            <p className="font-medium">Request received.</p>
-            <p>We’ll review your site and contact you shortly.</p>
+            <div className="flex items-start gap-3">
+              <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-white shadow-sm">
+                <Check className="h-5 w-5" strokeWidth={3} />
+              </div>
+
+              <div className="min-w-0">
+                <p className="font-semibold text-emerald-900">Audit request received</p>
+                <p className="mt-1 text-sm leading-relaxed text-emerald-800">
+                  We’ll review your visibility, website, and conversion opportunities, then contact you shortly.
+                </p>
+                <p className="mt-2 text-xs font-medium uppercase tracking-wide text-emerald-700/90">
+                  Next step: our team reviews your request
+                </p>
+              </div>
+            </div>
           </div>
         )}
-
         <Button type="submit" variant="hero" size="lg" className="w-full" disabled={loading}>
           {loading ? "Sending..." : (<>Get My Free Audit <ArrowRight /></>)}
         </Button>
