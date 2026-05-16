@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <path d="M50 5 C27.909 5 10 22.909 10 45 C10 75 50 95 50 95 C50 95 90 75 90 45 C90 22.909 72.091 5 50 5 Z" fill="#ef4444"/>
+  <circle cx="50" cy="40" r="22" fill="#ffffff" />
+  <text x="50" y="53" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="36" fill="#2563eb" text-anchor="middle">3</text>
+</svg>
