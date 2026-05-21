@@ -12,7 +12,6 @@ import { Navbar } from "@/components/site/Navbar";
 import { Counter } from "@/components/site/Counter";
 import logo from "@/assets/logo.png";
 import teamOffice from "@/assets/team-office.webp";
-import teamMember from "@/assets/team-member.webp";
 import teamDashboard from "@/assets/team-dashboard.webp";
 import teamWhiteboard from "@/assets/team-whiteboard.webp";
 import teamGroup from "@/assets/team-group.webp";
@@ -189,7 +188,6 @@ function BehindTheScenes() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 md:grid-rows-2 gap-4 md:gap-5 reveal">
-          {/* Featured Image */}
           <div className="relative col-span-2 md:col-span-2 md:row-span-2 rounded-2xl md:rounded-3xl overflow-hidden border border-border/50 bg-muted group min-h-[300px] md:min-h-[500px]">
             <img src={teamOffice} alt="TOP3-VA office and execution team" loading="lazy" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
@@ -202,17 +200,14 @@ function BehindTheScenes() {
             </div>
           </div>
 
-          {/* Supporting Image Wide */}
           <div className="relative col-span-2 md:col-span-2 md:row-span-1 rounded-2xl md:rounded-3xl overflow-hidden border border-border/50 bg-muted group aspect-[2/1] md:aspect-auto">
             <img src={teamGroup} alt="TOP3-VA team collaboration" loading="lazy" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
           </div>
 
-          {/* Supporting Image Square 1 */}
           <div className="relative col-span-1 md:col-span-1 md:row-span-1 rounded-2xl md:rounded-3xl overflow-hidden border border-border/50 bg-muted group aspect-square md:aspect-auto">
             <img src={teamDashboard} alt="Client growth metrics" loading="lazy" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
           </div>
 
-          {/* Supporting Image Square 2 */}
           <div className="relative col-span-1 md:col-span-1 md:row-span-1 rounded-2xl md:rounded-3xl overflow-hidden border border-border/50 bg-muted group aspect-square md:aspect-auto">
             <img src={teamWhiteboard} alt="Strategizing visibility plan" loading="lazy" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
           </div>
@@ -254,7 +249,6 @@ function Services() {
                 </div>
                 <h3 className="font-display text-2xl md:text-3xl uppercase mb-3">{t}</h3>
                 <p className="text-muted-foreground leading-relaxed">{d}</p>
-
               </div>
             </div>
           ))}
@@ -383,7 +377,6 @@ function FinalCTA() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/30 blur-[120px] rounded-full" />
       <div className="relative max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
         <div className="relative text-center lg:text-left">
-          {/* Subtle Background Layer */}
           <div
             className="absolute -inset-10 md:-inset-20 z-0 pointer-events-none select-none opacity-90"
             style={{
@@ -395,7 +388,6 @@ function FinalCTA() {
             <div className="absolute inset-0 bg-gradient-to-br from-foreground via-foreground/70 to-foreground/10" />
           </div>
 
-          {/* Content Layer */}
           <div className="relative z-10">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/40 bg-primary/10 text-xs uppercase tracking-widest mb-8 reveal animate-pulse-glow">
               <MessageSquare className="w-3.5 h-3.5 text-primary" />
@@ -535,15 +527,23 @@ const auditSchema = z.object({
   email: z.string().trim().email("Invalid email address").max(255),
   website: z.string().trim().max(255).optional().or(z.literal("")),
   goals: z.string().trim().min(10, "Tell us a bit more (min 10 chars)").max(1000),
+  company: z.string().trim().max(255).optional().or(z.literal("")),
 });
 
 function AuditForm() {
   const [loading, setLoading] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
-  const [form, setForm] = useState({ name: "", email: "", website: "", goals: "" });
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    website: "",
+    goals: "",
+    company: "",
+  });
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitSuccess(false);
 
     const result = auditSchema.safeParse(form);
     if (!result.success) {
@@ -551,11 +551,15 @@ function AuditForm() {
       return;
     }
 
+    if (result.data.company) {
+      setForm({ name: "", email: "", website: "", goals: "", company: "" });
+      setSubmitSuccess(true);
+      return;
+    }
+
     setLoading(true);
 
     try {
-      setSubmitSuccess(false);
-
       const { error } = await supabase.from("audit_requests").insert({
         name: result.data.name,
         email: result.data.email,
@@ -567,9 +571,9 @@ function AuditForm() {
         throw error;
       }
 
+      setForm({ name: "", email: "", website: "", goals: "", company: "" });
       setSubmitSuccess(true);
       toast.success("Request received successfully.");
-      setForm({ name: "", email: "", website: "", goals: "" });
     } catch (error) {
       console.error("Supabase insert error:", error);
       setSubmitSuccess(false);
@@ -582,11 +586,30 @@ function AuditForm() {
   return (
     <form
       onSubmit={onSubmit}
+      autoComplete="off"
       className="reveal relative p-6 md:p-8 rounded-2xl bg-background text-foreground border border-border shadow-elegant"
     >
       <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-primary/30 via-transparent to-transparent opacity-50 -z-10 blur-md" />
       <h3 className="font-display text-2xl md:text-3xl uppercase mb-1">Request your audit</h3>
       <p className="text-muted-foreground text-sm mb-6">Free • 48h turnaround • No commitment</p>
+
+      <div
+        aria-hidden="true"
+        className="absolute left-[-9999px] top-auto h-px w-px overflow-hidden opacity-0 pointer-events-none"
+      >
+        <Label htmlFor="company">Company</Label>
+        <Input
+          id="company"
+          name="company"
+          type="text"
+          tabIndex={-1}
+          autoComplete="one-time-code"
+          value={form.company}
+          onChange={(e) => {
+            setForm({ ...form, company: e.target.value });
+          }}
+        />
+      </div>
 
       <div className="space-y-4">
         <div className="space-y-1.5">
@@ -650,12 +673,13 @@ function AuditForm() {
           />
         </div>
 
-        {submitSuccess && (
-          <div
-            role="status"
-            aria-live="polite"
-            className="rounded-2xl border border-emerald-200/70 bg-emerald-50 px-4 py-4 shadow-sm"
-          >
+        <div
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+          className={submitSuccess ? "block" : "hidden"}
+        >
+          <div className="rounded-2xl border border-emerald-200/70 bg-emerald-50 px-4 py-4 shadow-sm">
             <div className="flex items-start gap-3">
               <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-white shadow-sm">
                 <Check className="h-5 w-5" strokeWidth={3} />
@@ -664,7 +688,7 @@ function AuditForm() {
               <div className="min-w-0">
                 <p className="font-semibold text-emerald-900">Audit request received</p>
                 <p className="mt-1 text-sm leading-relaxed text-emerald-800">
-                  We’ll review your visibility, website, and conversion opportunities, then contact you shortly.
+                  We received your request. We’ll review your site and reply shortly.
                 </p>
                 <p className="mt-2 text-xs font-medium uppercase tracking-wide text-emerald-700/90">
                   Next step: our team reviews your request
@@ -672,7 +696,8 @@ function AuditForm() {
               </div>
             </div>
           </div>
-        )}
+        </div>
+
         <Button type="submit" variant="hero" size="lg" className="w-full" disabled={loading}>
           {loading ? "Sending..." : (<>Get My Free Audit <ArrowRight /></>)}
         </Button>
