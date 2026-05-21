@@ -22,17 +22,19 @@ serve(async (req) => {
 
     console.log("Record extracted:", JSON.stringify(record));
 
-    const name = record.name ?? "Unknown";
-    const email = record.email ?? "No email provided";
-    const website = record.website ?? "Not provided";
-    const goals = record.goals ?? "Not provided";
-    const createdAt = record.created_at ?? new Date().toISOString();
+    const name = record.name?.trim() || "Unknown";
+    const email = record.email?.trim() || "No email provided";
+    const website = record.website?.trim() || "Not provided";
+    const goals = record.goals?.trim() || "Not provided";
+    const createdAt = record.created_at || new Date().toISOString();
 
     const resendApiKey = Deno.env.get("RESEND_API_KEY");
 
     if (!resendApiKey) {
       throw new Error("Missing RESEND_API_KEY secret");
     }
+
+    const safeGoals = goals.replace(/\n/g, "<br />");
 
     console.log("Preparing Resend request", {
       name,
@@ -48,20 +50,7 @@ serve(async (req) => {
         Authorization: `Bearer ${resendApiKey}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        from: "TOP3 VA <onboarding@resend.dev>",
-        to: ["rafo74@gmail.com"],
-        subject: `New audit request from ${name}`,
-        html: `
-          <h2>New audit request</h2>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Website:</strong> ${website}</p>
-          <p><strong>Goals:</strong><br />${goals}</p>
-          <p><strong>Created at:</strong> ${createdAt}</p>
-        `,
-      }),
-    });
+    
 
     const resendData = await resendResponse.json();
     console.log("Resend response:", JSON.stringify(resendData));
