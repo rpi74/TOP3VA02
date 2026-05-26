@@ -1,7 +1,7 @@
 import { supabase } from '../lib/supabase';
 import { createFileRoute } from "@tanstack/react-router";
 import { useReveal } from "@/hooks/use-reveal";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -37,6 +37,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   useReveal();
+
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <Navbar />
@@ -103,6 +104,7 @@ function Problem() {
     { Icon: Users, t: "Competitors steal your clients", d: "While you stay invisible, they capture the leads that should be yours." },
     { Icon: DollarSign, t: "You leave money on the table", d: "Every day without visibility is revenue walking straight to someone else." },
   ];
+
   return (
     <section className="py-16 md:py-20 px-6 bg-foreground text-background relative overflow-hidden">
       <div className="absolute inset-0 grid-bg opacity-30" />
@@ -141,6 +143,7 @@ function Trust() {
     { v: 87, s: "%", l: "Visibility improvement" },
     { v: 48, s: "h", l: "From audit to action" },
   ];
+
   return (
     <section id="trust" className="py-16 md:py-20 px-6">
       <div className="max-w-6xl mx-auto">
@@ -224,6 +227,7 @@ function Services() {
     { Icon: BarChart3, t: "Online Presence Audit", d: "We pinpoint exactly what's costing you leads — and how to fix it fast." },
     { Icon: Phone, t: "Contact & Booking Systems", d: "Turn visits into calls, messages and confirmed appointments on autopilot." },
   ];
+
   return (
     <section id="services" className="py-16 md:py-20 px-6 bg-muted/40 border-y border-border">
       <div className="max-w-6xl mx-auto">
@@ -265,6 +269,7 @@ function Process() {
     { n: "03", Icon: Zap, t: "Agile Implementation", d: "We move fast. Most projects launch in days, not months." },
     { n: "04", Icon: TrendingUp, t: "Results Focus", d: "We track calls, messages, conversions — not vanity metrics." },
   ];
+
   return (
     <section id="process" className="py-16 md:py-20 px-6">
       <div className="max-w-6xl mx-auto">
@@ -293,6 +298,7 @@ function Process() {
 function BeforeAfter() {
   const before = ["Cluttered & confusing", "Outdated design", "No clear call to action", "Invisible on Google"];
   const after = ["Clean & focused", "Modern, premium feel", "Conversion-driven CTAs", "Found by ready-to-buy clients"];
+
   return (
     <section className="py-16 md:py-20 px-6 bg-foreground text-background overflow-hidden">
       <div className="max-w-6xl mx-auto">
@@ -340,6 +346,7 @@ function WhyUs() {
     { t: "Fast implementation", d: "Days, not months. We ship and iterate." },
     { t: "Clear communication", d: "One contact, weekly updates, no surprises." },
   ];
+
   return (
     <section id="why" className="py-16 md:py-20 px-6">
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
@@ -371,47 +378,161 @@ function WhyUs() {
 }
 
 function FinalCTA() {
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [showCalendly, setShowCalendly] = useState(false);
+  const [showCalendlyLoader, setShowCalendlyLoader] = useState(false);
+  const calendlyRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    let timer: number | undefined;
+    let loaderTimer: number | undefined;
+
+    if (submitSuccess) {
+      setShowCalendlyLoader(false);
+
+      timer = window.setTimeout(() => {
+        setShowCalendly(true);
+        setShowCalendlyLoader(true);
+
+        loaderTimer = window.setTimeout(() => {
+          setShowCalendlyLoader(false);
+        }, 3500);
+      }, 1500);
+    } else {
+      setShowCalendly(false);
+      setShowCalendlyLoader(false);
+    }
+
+    return () => {
+      if (timer) window.clearTimeout(timer);
+      if (loaderTimer) window.clearTimeout(loaderTimer);
+    };
+  }, [submitSuccess]);
+
+  useEffect(() => {
+    if (!showCalendly) return;
+
+    const scrollTimer = window.setTimeout(() => {
+      if (!calendlyRef.current) return;
+
+      const y = calendlyRef.current.getBoundingClientRect().top + window.scrollY - 24;
+      window.scrollTo({
+        top: y,
+        behavior: "smooth",
+      });
+    }, 80);
+
+    return () => window.clearTimeout(scrollTimer);
+  }, [showCalendly]);
+
   return (
     <section id="contact" className="relative py-20 md:py-28 px-6 bg-foreground text-background overflow-hidden">
       <div className="absolute inset-0 grid-bg opacity-50" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/30 blur-[120px] rounded-full" />
-      <div className="relative max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-        <div className="relative text-center lg:text-left">
-          <div
-            className="absolute -inset-10 md:-inset-20 z-0 pointer-events-none select-none opacity-90"
-            style={{
-              maskImage: 'radial-gradient(ellipse at 70% 60%, black 20%, transparent 80%)',
-              WebkitMaskImage: 'radial-gradient(ellipse at 70% 60%, black 20%, transparent 80%)'
-            }}
-          >
-            <img src={contactBg} alt="" className="w-full h-full object-cover object-center" />
-            <div className="absolute inset-0 bg-gradient-to-br from-foreground via-foreground/70 to-foreground/10" />
+
+      <div className="relative z-10 max-w-6xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+          <div className="relative reveal">
+            <div className="absolute inset-0 rounded-3xl overflow-hidden opacity-20 pointer-events-none">
+              <img
+                src={contactBg}
+                alt=""
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-transparent" />
+            </div>
+
+            <div className="relative z-10 p-2 text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/40 bg-primary/10 text-xs uppercase tracking-widest mb-8 animate-pulse-glow">
+                <MessageSquare className="w-3.5 h-3.5 text-primary" />
+                Free visibility audit
+              </div>
+              <h2 className="font-display text-4xl md:text-6xl lg:text-7xl uppercase leading-[0.95]">
+                Start getting more <span className="text-gradient-red">calls & clients.</span>
+              </h2>
+              <p className="mt-6 text-background/70 text-lg max-w-xl mx-auto lg:mx-0">
+                Tell us about your business. We'll send you a clear, actionable visibility report within 48 hours.
+              </p>
+              <ul className="mt-8 space-y-3 max-w-md mx-auto lg:mx-0 text-left">
+                {["100% free, no commitment", "Personalized to your business", "Actionable report in 48h"].map((t) => (
+                  <li key={t} className="flex items-center gap-3 text-background/80">
+                    <span className="w-5 h-5 rounded-full bg-primary flex items-center justify-center shrink-0">
+                      <Check className="w-3 h-3 text-primary-foreground" strokeWidth={3} />
+                    </span>
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
-          <div className="relative z-10">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/40 bg-primary/10 text-xs uppercase tracking-widest mb-8 reveal animate-pulse-glow">
-              <MessageSquare className="w-3.5 h-3.5 text-primary" />
-              Free visibility audit
+          <AuditForm
+            submitSuccess={submitSuccess}
+            onSubmitSuccess={() => setSubmitSuccess(true)}
+            onFormEdit={() => {
+              setSubmitSuccess(false);
+              setShowCalendly(false);
+              setShowCalendlyLoader(false);
+            }}
+          />
+        </div>
+
+        <div
+          ref={calendlyRef}
+          className={`overflow-hidden transition-all duration-700 ease-out ${
+            showCalendly ? "max-h-[1600px] opacity-100 translate-y-0 mt-10 md:mt-14" : "max-h-0 opacity-0 translate-y-4"
+          }`}
+        >
+          <div className="rounded-2xl border border-border bg-background text-foreground shadow-elegant p-4 md:p-6 lg:p-8">
+            <div className="mb-6 md:mb-8 text-center md:text-left">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary mb-2">
+                Book your call
+              </p>
+              <h4 className="font-display text-2xl md:text-4xl uppercase leading-tight">
+                Free Visibility Strategy Call
+              </h4>
+              <p className="mt-3 text-sm md:text-base text-muted-foreground leading-relaxed max-w-3xl">
+                Choose the time that works best for you. In this call, we’ll review your current visibility,
+                identify opportunities, and discuss the next best action plan for your business.
+              </p>
             </div>
-            <h2 className="font-display text-4xl md:text-6xl lg:text-7xl uppercase leading-[0.95] reveal">
-              Start getting more <span className="text-gradient-red">calls & clients.</span>
-            </h2>
-            <p className="mt-6 text-background/70 text-lg max-w-xl mx-auto lg:mx-0 reveal">
-              Tell us about your business. We'll send you a clear, actionable visibility report within 48 hours.
-            </p>
-            <ul className="mt-8 space-y-3 reveal max-w-md mx-auto lg:mx-0 text-left">
-              {["100% free, no commitment", "Personalized to your business", "Actionable report in 48h"].map((t) => (
-                <li key={t} className="flex items-center gap-3 text-background/80">
-                  <span className="w-5 h-5 rounded-full bg-primary flex items-center justify-center shrink-0">
-                    <Check className="w-3 h-3 text-primary-foreground" strokeWidth={3} />
-                  </span>
-                  {t}
-                </li>
-              ))}
-            </ul>
+
+            <div className="relative overflow-hidden rounded-2xl border border-border bg-muted/20 min-h-[760px]">
+              {showCalendlyLoader && (
+                <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-background/88 backdrop-blur-sm">
+                  <div className="h-10 w-10 rounded-full border-2 border-primary/20 border-t-primary animate-spin mb-4" />
+                  <p className="text-sm md:text-base font-medium text-foreground">
+                    Checking available time slots...
+                  </p>
+                  <p className="mt-2 text-xs md:text-sm text-muted-foreground text-center max-w-md px-6">
+                    Please wait a moment while we load the calendar for your free strategy call.
+                  </p>
+                </div>
+              )}
+
+              <iframe
+                src="https://calendly.com/rafo74/30min"
+                title="Book your Free Visibility Strategy Call"
+                className="w-full min-w-[320px]"
+                style={{ height: "760px" }}
+              />
+
+              <div className="border-t border-border bg-background px-4 py-3 text-center">
+                <p className="text-xs md:text-sm text-muted-foreground">
+                  If the scheduler doesn’t appear, use this direct link:{" "}
+                  <a
+                    href="https://calendly.com/rafo74/30min"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-medium text-primary underline underline-offset-4"
+                  >
+                    Open booking page
+                  </a>
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-        <AuditForm />
       </div>
     </section>
   );
@@ -487,6 +608,7 @@ function Testimonials() {
       rating: 5,
     },
   ];
+
   return (
     <section id="testimonials" className="py-16 md:py-20 px-6 bg-muted/40 border-y border-border">
       <div className="max-w-6xl mx-auto">
@@ -530,9 +652,14 @@ const auditSchema = z.object({
   company: z.string().trim().max(255).optional().or(z.literal("")),
 });
 
-function AuditForm() {
+type AuditFormProps = {
+  submitSuccess: boolean;
+  onSubmitSuccess: () => void;
+  onFormEdit: () => void;
+};
+
+function AuditForm({ submitSuccess, onSubmitSuccess, onFormEdit }: AuditFormProps) {
   const [loading, setLoading] = useState(false);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -543,7 +670,6 @@ function AuditForm() {
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitSuccess(false);
 
     const result = auditSchema.safeParse(form);
     if (!result.success) {
@@ -553,7 +679,7 @@ function AuditForm() {
 
     if (result.data.company) {
       setForm({ name: "", email: "", website: "", goals: "", company: "" });
-      setSubmitSuccess(true);
+      onSubmitSuccess();
       return;
     }
 
@@ -572,11 +698,10 @@ function AuditForm() {
       }
 
       setForm({ name: "", email: "", website: "", goals: "", company: "" });
-      setSubmitSuccess(true);
+      onSubmitSuccess();
       toast.success("Request received successfully.");
     } catch (error) {
       console.error("Supabase insert error:", error);
-      setSubmitSuccess(false);
       toast.error("Something went wrong while sending your request.");
     } finally {
       setLoading(false);
@@ -584,128 +709,133 @@ function AuditForm() {
   };
 
   return (
-    <form
-      onSubmit={onSubmit}
-      autoComplete="off"
-      className="reveal relative p-6 md:p-8 rounded-2xl bg-background text-foreground border border-border shadow-elegant"
-    >
-      <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-primary/30 via-transparent to-transparent opacity-50 -z-10 blur-md" />
-      <h3 className="font-display text-2xl md:text-3xl uppercase mb-1">Request your audit</h3>
-      <p className="text-muted-foreground text-sm mb-6">Free • 48h turnaround • No commitment</p>
-
-      <div
-        aria-hidden="true"
-        className="absolute left-[-9999px] top-auto h-px w-px overflow-hidden opacity-0 pointer-events-none"
+    <div className="reveal relative z-10">
+      <form
+        onSubmit={onSubmit}
+        autoComplete="off"
+        className="relative p-6 md:p-8 rounded-2xl bg-background text-foreground border border-border shadow-elegant"
       >
-        <Label htmlFor="company">Company</Label>
-        <Input
-          id="company"
-          name="company"
-          type="text"
-          tabIndex={-1}
-          autoComplete="one-time-code"
-          value={form.company}
-          onChange={(e) => {
-            setForm({ ...form, company: e.target.value });
-          }}
-        />
-      </div>
-
-      <div className="space-y-4">
-        <div className="space-y-1.5">
-          <Label htmlFor="name">Your name</Label>
-          <Input
-            id="name"
-            placeholder="Jane Doe"
-            value={form.name}
-            onChange={(e) => {
-              setSubmitSuccess(false);
-              setForm({ ...form, name: e.target.value });
-            }}
-            maxLength={100}
-            required
-          />
-        </div>
-
-        <div className="space-y-1.5">
-          <Label htmlFor="email">Email</Label>
-          <Input
-            id="email"
-            type="email"
-            placeholder="you@company.com"
-            value={form.email}
-            onChange={(e) => {
-              setSubmitSuccess(false);
-              setForm({ ...form, email: e.target.value });
-            }}
-            maxLength={255}
-            required
-          />
-        </div>
-
-        <div className="space-y-1.5">
-          <Label htmlFor="website">Website (optional)</Label>
-          <Input
-            id="website"
-            placeholder="https://yoursite.com"
-            value={form.website}
-            onChange={(e) => {
-              setSubmitSuccess(false);
-              setForm({ ...form, website: e.target.value });
-            }}
-            maxLength={255}
-          />
-        </div>
-
-        <div className="space-y-1.5">
-          <Label htmlFor="goals">Your goals</Label>
-          <Textarea
-            id="goals"
-            placeholder="More calls? More bookings? Tell us what success looks like."
-            rows={4}
-            value={form.goals}
-            onChange={(e) => {
-              setSubmitSuccess(false);
-              setForm({ ...form, goals: e.target.value });
-            }}
-            maxLength={1000}
-            required
-          />
-        </div>
+        <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-primary/30 via-transparent to-transparent opacity-50 -z-10 blur-md" />
+        <h3 className="font-display text-2xl md:text-3xl uppercase mb-1">Request your audit</h3>
+        <p className="text-muted-foreground text-sm mb-6">Free • 48h turnaround • No commitment</p>
 
         <div
-          role="status"
-          aria-live="polite"
-          aria-atomic="true"
-          className={submitSuccess ? "block" : "hidden"}
+          aria-hidden="true"
+          className="absolute left-[-9999px] top-auto h-px w-px overflow-hidden opacity-0 pointer-events-none"
         >
-          <div className="rounded-2xl border border-emerald-200/70 bg-emerald-50 px-4 py-4 shadow-sm">
-            <div className="flex items-start gap-3">
-              <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-white shadow-sm">
-                <Check className="h-5 w-5" strokeWidth={3} />
-              </div>
+          <Label htmlFor="company">Company</Label>
+          <Input
+            id="company"
+            name="company"
+            type="text"
+            tabIndex={-1}
+            autoComplete="one-time-code"
+            value={form.company}
+            onChange={(e) => {
+              setForm({ ...form, company: e.target.value });
+            }}
+          />
+        </div>
 
-              <div className="min-w-0">
-                <p className="font-semibold text-emerald-900">Audit request received</p>
-                <p className="mt-1 text-sm leading-relaxed text-emerald-800">
-                  We received your request. We’ll review your site and reply shortly.
-                </p>
-                <p className="mt-2 text-xs font-medium uppercase tracking-wide text-emerald-700/90">
-                  Next step: our team reviews your request
-                </p>
+        <div className="space-y-4">
+          <div className="space-y-1.5">
+            <Label htmlFor="name">Your name</Label>
+            <Input
+              id="name"
+              placeholder="Jane Doe"
+              value={form.name}
+              onChange={(e) => {
+                onFormEdit();
+                setForm({ ...form, name: e.target.value });
+              }}
+              maxLength={100}
+              required
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              id="email"
+              type="email"
+              placeholder="you@company.com"
+              value={form.email}
+              onChange={(e) => {
+                onFormEdit();
+                setForm({ ...form, email: e.target.value });
+              }}
+              maxLength={255}
+              required
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <Label htmlFor="website">Website (optional)</Label>
+            <Input
+              id="website"
+              placeholder="https://yoursite.com"
+              value={form.website}
+              onChange={(e) => {
+                onFormEdit();
+                setForm({ ...form, website: e.target.value });
+              }}
+              maxLength={255}
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <Label htmlFor="goals">Your goals</Label>
+            <Textarea
+              id="goals"
+              placeholder="More calls? More bookings? Tell us what success looks like."
+              rows={4}
+              value={form.goals}
+              onChange={(e) => {
+                onFormEdit();
+                setForm({ ...form, goals: e.target.value });
+              }}
+              maxLength={1000}
+              required
+            />
+          </div>
+
+          <div
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+            className={submitSuccess ? "block" : "hidden"}
+          >
+            <div className="rounded-2xl border border-emerald-200/70 bg-emerald-50 px-4 py-4 shadow-sm">
+              <div className="flex items-start gap-3">
+                <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-white shadow-sm">
+                  <Check className="h-5 w-5" strokeWidth={3} />
+                </div>
+
+                <div className="min-w-0">
+                  <p className="font-semibold text-emerald-900">Request received</p>
+                  <p className="mt-1 text-sm leading-relaxed text-emerald-800">
+                    Thanks — we’ve received your audit request.
+                  </p>
+                  <p className="mt-2 text-sm leading-relaxed text-emerald-800">
+                    Please scroll down to schedule your free strategy call.
+                  </p>
+                  <p className="mt-2 text-xs font-medium uppercase tracking-wide text-emerald-700/90">
+                    Next step: book your free visibility strategy call
+                  </p>
+                </div>
               </div>
             </div>
           </div>
+
+          <Button type="submit" variant="hero" size="lg" className="w-full" disabled={loading}>
+            {loading ? "Sending..." : (<>Get My Free Audit <ArrowRight /></>)}
+          </Button>
+
+          <p className="text-xs text-muted-foreground text-center">
+            We respect your privacy. No spam, ever.
+          </p>
         </div>
-
-        <Button type="submit" variant="hero" size="lg" className="w-full" disabled={loading}>
-          {loading ? "Sending..." : (<>Get My Free Audit <ArrowRight /></>)}
-        </Button>
-
-        <p className="text-xs text-muted-foreground text-center">
-          We respect your privacy. No spam, ever.
-        </p>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 }
