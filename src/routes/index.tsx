@@ -820,7 +820,7 @@ function AuditForm({ submitSuccess, onSubmitSuccess, onFormEdit }: AuditFormProp
                     Please scroll down to schedule your free strategy call.
                   </p>
                   <p className="mt-2 text-xs font-medium uppercase tracking-wide text-emerald-700/90">
-                    Next step: book your free visibility strategy call TEST DEPLOY
+                    Next step: book your free visibility strategy call
                   </p>
                 </div>
               </div>
